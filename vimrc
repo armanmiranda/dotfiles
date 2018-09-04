@@ -17,17 +17,20 @@ Plugin 'mileszs/ack.vim'
 Plugin 'junegunn/fzf'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-obsession'
+Plugin 'slim-template/vim-slim.git'
 
 call vundle#end()
 
 autocmd VimEnter * if argc() == 0 | call fzf#run(fzf#wrap({"sink": "e"})) | endif
 autocmd vimenter * filetype detect
+autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
 autocmd vimenter * NERDTree
 
 " User Defined Commands
 :command -nargs=? Rspec call TermCommand("rspec", "<args>")
 :command -nargs=0 TranslateJS call TermCommand("rails i18n:js:export")
 :command -nargs=* Term call TermCommand("", "<args>")
+:command -nargs=0 Gemfile vsp Gemfile
 
 " User Defined Functions
 :function TermCommand(termcmd, ...)

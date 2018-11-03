@@ -309,14 +309,22 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  "Add icons to neotree"
+  ;;Add icons to neotree
   (setq neo-theme 'icons)
 
-  "Rebind neotree open, horizontal and vertical splits"
+  ;;Rebind neotree open, horizontal and vertical splits
   (with-eval-after-load 'neotree
     (evil-define-key 'evilified neotree-mode-map (kbd "o") 'neotree-enter)
     (evil-define-key 'evilified neotree-mode-map (kbd "i") 'neotree-enter-horizontal-split)
     (evil-define-key 'evilified neotree-mode-map (kbd "s") 'neotree-enter-vertical-split))
+
+  ;;Rebind buffer switching to gt
+  (define-key evil-normal-state-map (kbd "gt") 'next-buffer)
+  (define-key evil-normal-state-map (kbd "gT") 'previous-buffer)
+
+  ;;Rebind ex-command :q to kill-the buffer and not the window
+  (evil-ex-define-cmd "q" 'kill-this-buffer)
+  (evil-ex-define-cmd "quit" 'evil-quit)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

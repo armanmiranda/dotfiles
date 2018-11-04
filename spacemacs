@@ -318,6 +318,7 @@ you should place your code here."
     (evil-define-key 'evilified neotree-mode-map (kbd "o") 'neotree-enter)
     (evil-define-key 'evilified neotree-mode-map (kbd "i") 'neotree-enter-horizontal-split)
     (evil-define-key 'evilified neotree-mode-map (kbd "s") 'neotree-enter-vertical-split))
+    (evil-define-key 'evilified neotree-mode-map (kbd "C-w w") 'evil-window-next)
 
   ;; Rebind buffer switching to gt
   (define-key evil-normal-state-map (kbd "gt") 'next-buffer)

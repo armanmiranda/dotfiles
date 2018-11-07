@@ -37,7 +37,6 @@ values."
      (ruby :variables
            ruby-test-runner 'rspec
            ruby-enable-enh-ruby-mode t
-           ruby-version-manager 'rvm
            ruby-enable-ruby-on-rails-support t)
      ruby-on-rails
      ;; ----------------------------------------------------------------
@@ -354,6 +353,9 @@ you should place your code here."
 
   ;; Rebind ex-command :x to kill-the buffer and not the window
   (evil-ex-define-cmd "x" 'kill-this-buffer)
+
+  ;; Enable projectile caching
+  (setq projectile-enable-caching t)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

@@ -1,0 +1,94 @@
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'travisjeffery/vim-auto-mkdir'
+Plugin 'joshdick/onedark.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'junegunn/fzf'
+Plugin 'slim-template/vim-slim.git'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'ryanoasis/vim-devicons'
+
+call vundle#end()
+filetype plugin indent on
+set completeopt=longest,menuone
+
+autocmd VimEnter * if argc() == 0 | call fzf#run(fzf#wrap({"sink": "e"})) | endif
+autocmd vimenter * filetype detect
+autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
+autocmd vimenter * NERDTree
+" Remove trailing White spaces from ruby files
+autocmd BufWritePre *.rb %s/\s\+$//e
+
+" User Defined Commands
+:command -nargs=? Rspec call TermCommand("rspec", "<args>")
+:command -nargs=0 TranslateJS call TermCommand("rails i18n:js:export")
+:command -nargs=* Term call TermCommand("", "<args>")
+:command -nargs=0 Gemfile vsp Gemfile
+
+" User Defined Functions
+:function TermCommand(termcmd, ...)
+:  let s:curwin = @% =~ "^!" ? " ++curwin " : " "
+:  let s:cmd = "term" . s:curwin . a:termcmd . " " . join(a:000)
+:  let s:chomped_cmd = join(split(s:cmd))
+:  execute s:chomped_cmd
+:endfunction
+
+" User Defined Keybindings
+" FZF searching 
+nmap <Space>ff :FZF<CR>
+
+" Rspec Keybindings
+nmap <Space>fr :Rspec %<CR>
+
+set number
+set encoding=UTF-8
+set relativenumber
+set listchars=tab:▸\ ,nbsp:⋅,trail:•
+set list
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set backspace=2
+set expandtab
+set pastetoggle=<F3>
+set splitright
+set termguicolors
+
+" set Vim-specific sequences for RGB colors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+syntax enable
+set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h12
+
+colorscheme onedark
+
+let g:airline_theme='onedark'
+let g:airline_powerline_fonts=1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:polyglot_disabled = ["graphql"]
+
+let g:rails_projections = {
+      \ "app/javascript/*.jsx": {
+      \   "command": "component"
+      \ },
+      \
+      \ "app/javascript/packs/*.js": {
+      \   "command": "packs"
+      \ },
+      \
+      \ "app/admin/*.rb": {
+      \   "command": "admin",
+      \   "affinity": "model",
+      \   "alternate": "app/models/*.rb",
+      \   "template": "ActiveAdmin.register {} do\nend"
+      \ }}

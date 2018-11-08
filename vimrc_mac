@@ -22,10 +22,7 @@ call vundle#end()
 filetype plugin indent on
 set completeopt=longest,menuone
 
-autocmd VimEnter * if argc() == 0 | call fzf#run(fzf#wrap({"sink": "e"})) | endif
-autocmd vimenter * filetype detect
 autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
-autocmd vimenter * NERDTree
 " Remove trailing White spaces from ruby files
 autocmd BufWritePre *.rb %s/\s\+$//e
 
@@ -48,7 +45,10 @@ autocmd BufWritePre *.rb %s/\s\+$//e
 nmap <Space>ff :FZF<CR>
 
 " Rspec Keybindings
-nmap <Space>fr :Rspec %<CR>
+nmap <Space>tr. :Rspec %<CR>
+
+" Open NERDTree
+nmap <Space>ft :NERDTreeToggle<CR>
 
 set number
 set encoding=UTF-8

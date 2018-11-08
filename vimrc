@@ -1,5 +1,5 @@
 set nocompatible
-filetype plugin indent on
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -13,18 +13,21 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'travisjeffery/vim-auto-mkdir'
 Plugin 'joshdick/onedark.vim'
 Plugin 'vim-airline/vim-airline'
-Plugin 'mileszs/ack.vim'
 Plugin 'junegunn/fzf'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'tpope/vim-obsession'
+Plugin 'ryanoasis/vim-devicons'
 Plugin 'slim-template/vim-slim.git'
+Plugin 'reedes/vim-pencil'
+Plugin 'junegunn/goyo.vim'
+Plugin 'tpope/vim-obsession'
 
 call vundle#end()
+filetype plugin indent on
+set completeopt=longest,menuone
 
-autocmd VimEnter * if argc() == 0 | call fzf#run(fzf#wrap({"sink": "e"})) | endif
-autocmd vimenter * filetype detect
 autocmd BufNewFile,BufRead *.slim setlocal filetype=slim
-autocmd vimenter * NERDTree
+" Remove trailing white spaces from ruby files
+autocmd BufWritePre *.rb %s/\s\+$//e
 
 " User Defined Commands
 :command -nargs=? Rspec call TermCommand("rspec", "<args>")
@@ -40,9 +43,20 @@ autocmd vimenter * NERDTree
 :  execute s:chomped_cmd
 :endfunction
 
-nmap <F2> :FZF<CR>
+" User Defined Keybindings
+" FZF Searching
+nmap <Space>ff :FZF<CR>
+
+" Rspec Keybindings
+nmap <Space>rt. :Rspec %<CR>
+
+" Toggle NERDTree
+nmap <Space>ft :NERDTreeToggle<CR>
+
+set encoding=UTF-8
 set number
 set relativenumber
+set list
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -50,7 +64,9 @@ set backspace=2
 set expandtab
 set pastetoggle=<F3>
 set splitright
+set textwidth=80
 set termguicolors
+set listchars=tab:▸\ ,nbsp:⋅,trail:•
 
 " set Vim-specific sequences for RGB colors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -60,7 +76,19 @@ syntax enable
 colorscheme onedark
 let g:airline_theme='onedark'
 let g:airline_powerline_fonts=1
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 let g:polyglot_disabled = ["graphql"]
+
+"gui options
+if has("gui_running")
+  if has("gui_gtk2") || has("gui_gtk3")
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    set guifont=Source\ Code\ Pro\ Regular\ 10
+  endif
+endif
 
 let g:rails_projections = {
       \ "app/javascript/*.jsx": {
@@ -77,3 +105,9 @@ let g:rails_projections = {
       \   "alternate": "app/models/*.rb",
       \   "template": "ActiveAdmin.register {} do\nend"
       \ }}
+"Prose writing
+
+augroup pencil
+  autocmd!
+  autocmd FileType text call pencil#init({'wrap': 'soft'})
+augroup END

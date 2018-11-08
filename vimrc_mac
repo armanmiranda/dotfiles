@@ -45,15 +45,14 @@ autocmd BufWritePre *.rb %s/\s\+$//e
 nmap <Space>ff :FZF<CR>
 
 " Rspec Keybindings
-nmap <Space>tr. :Rspec %<CR>
+nmap <Space>rt. :Rspec %<CR>
 
-" Open NERDTree
+" Toggle NERDTree
 nmap <Space>ft :NERDTreeToggle<CR>
 
-set number
 set encoding=UTF-8
+set number
 set relativenumber
-set listchars=tab:▸\ ,nbsp:⋅,trail:•
 set list
 set tabstop=2
 set softtabstop=2
@@ -62,7 +61,9 @@ set backspace=2
 set expandtab
 set pastetoggle=<F3>
 set splitright
+set textwidth=80
 set termguicolors
+set listchars=tab:▸\ ,nbsp:⋅,trail:•
 
 " set Vim-specific sequences for RGB colors
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"

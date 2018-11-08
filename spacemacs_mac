@@ -352,10 +352,15 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "<f3>") 'projectile-run-async-shell-command-in-root)
 
   ;; Rebind ex-command :x to kill-the buffer and not the window
+  (defun evil-kill-buffer-and-window
+      ('kill-buffer)
+    ('evil-quit))
   (evil-ex-define-cmd "x" 'kill-this-buffer)
+  (evil-ex-define-cmd "x!" 'evil-kill-buffer-and-window)
 
   ;; Enable projectile caching
   (setq projectile-enable-caching t)
+  (setq projectile-file-exists-local-cache-expire (* 5 60))
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

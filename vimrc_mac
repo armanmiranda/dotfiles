@@ -48,7 +48,7 @@ nmap <Space>ff :FZF<CR>
 nmap <Space>rt. :Rspec %<CR>
 
 " Toggle NERDTree
-nmap <Space>ft :NERDTreeToggle<CR>
+nmap <Space>pt :NERDTreeToggle<CR>
 
 set encoding=UTF-8
 set number

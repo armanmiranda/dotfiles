@@ -372,14 +372,21 @@ you should place your code here."
   (add-hook 'org-mode-hook '(lambda ()
             (toggle-word-wrap)
             (turn-on-auto-fill)
+            (refill-mode)
             (org-indent-mode)))
 
-  ;; Manually add org files to path
-  (with-eval-after-load 'org (setq org-agenda-files
-                                   (list 
-                                     "~/Documents/project-notes"
-                                     "~/Dropbox/notes"
-                                     )))
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Manually add org files to path;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; Function that would append all folders with org notes
+  ;; Add your directories here
+  (defun org-directory-files ()
+    (append (directory-files-recursively "~/Documents/project-notes" "\\.org$")
+            (directory-files-recursively "~/Dropbox/notes" "\\.org$")))
+
+  ;; Call the combined list of org files and set it as the org agenda file
+  (with-eval-after-load 'org (setq org-agenda-files (org-directory-files)))
 
 )
 ;; Do not write anything past this comment. This is where Emacs will

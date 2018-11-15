@@ -411,13 +411,25 @@ you should place your code here."
     (interactive)
     (projectile-with-default-dir
         (projectile-ensure-project (projectile-project-root))
-      (async-shell-command (format "zsh --login -c 'rspec %s'"
+        (async-shell-command (format "zsh --login -c 'rspec %s'"
                                    buffer-file-name))
         ))
 
+  (defun rspec-test-line-number ()
+    (interactive)
+    (projectile-with-default-dir
+        (projectile-ensure-project (projectile-project-root))
+        (async-shell-command (format "zsh --login -c 'rspec %s:%s'"
+                                   buffer-file-name
+                                   (format-mode-line "%l")))
+
+        )
+    )
+
   (spacemacs/set-leader-keys
     "Rta" 'rspec-test-all
-    "Rt." 'rspec-test-file)
+    "Rt%" 'rspec-test-file
+    "Rt." 'rspec-test-line-number)
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.

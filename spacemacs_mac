@@ -399,7 +399,11 @@ you should place your code here."
   ;; Call the combined lists of org files and set it as org agenda file.
   (with-eval-after-load 'org (setq org-agenda-files (org-directory-files)))
 
-  ;; Custom Rspec Commands
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Custom Rspec Commands;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; Test all specs
   (defun rspec-test-all ()
     (interactive)
     (projectile-with-default-dir
@@ -407,6 +411,7 @@ you should place your code here."
         (async-shell-command "zsh --login -c 'rspec'")
       ))
 
+  ;; Test the current file
   (defun rspec-test-file ()
     (interactive)
     (projectile-with-default-dir
@@ -415,6 +420,7 @@ you should place your code here."
                                    buffer-file-name))
         ))
 
+  ;; Test the current line in the current file
   (defun rspec-test-line-number ()
     (interactive)
     (projectile-with-default-dir

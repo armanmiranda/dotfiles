@@ -326,6 +326,10 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; Add Custom CSS Identation
   (setq css-indent-offset 2)
+
+  ;; Add Custom JS2 Indentation
+  (setq js-indent-level 2)
+
   ;; Add icons to neotree
   (setq neo-theme 'icons)
 

@@ -373,8 +373,12 @@ you should place your code here."
     (evil-define-key 'evilified neotree-mode-map (kbd "C-w w") 'evil-window-next)
 
   ;; Rebind buffer switching to gt
-  (define-key evil-normal-state-map (kbd "bt") 'next-buffer)
-  (define-key evil-normal-state-map (kbd "bT") 'previous-buffer)
+  (define-key evil-normal-state-map (kbd "gt") 'next-buffer)
+  (define-key evil-normal-state-map (kbd "gT") 'previous-buffer)
+
+  ;; Rebind layout switching to space gt
+  (spacemacs/set-leader-keys "gt" 'persp-next)
+  (spacemacs/set-leader-keys "gT" 'persp-prev)
 
   ;; Rebind fzf like find searching to f2
   (define-key evil-normal-state-map (kbd "<f2>") 'counsel-projectile-find-file)

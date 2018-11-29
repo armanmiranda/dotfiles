@@ -38,15 +38,16 @@ values."
      (ruby :variables
            ruby-test-runner 'rspec
            ruby-enable-enh-ruby-mode t
-           ruby-enable-ruby-on-rails-support t)
+           ruby-version-manager 'rvm)
      ruby-on-rails
+     journal
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
      ;; git
@@ -59,7 +60,10 @@ values."
             shell-default-position 'bottom)
      ;; spell-checking
      syntax-checking
-     version-control
+     (version-control :variables
+                      version-control-diff-side 'left
+                      version-control-diff-tool 'diff-hl
+                      version-control-global-margin t)
      deft
      )
    ;; List of additional packages that will be installed without being
@@ -315,6 +319,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq-default
+   dotspacemacs-themes '(doom-nova))
   )
 
 (defun dotspacemacs/user-config ()
@@ -326,6 +332,12 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; Add icons to neotree
   (setq neo-theme 'icons)
+
+  ;; Add custom CSS indentation
+  (setq css-indent-offset 2)
+
+  ;; Add custom JS2 indentation
+  (setq js-indent-level 2)
 
   ;; 2 spaces instead of tabs
   (setq-default indent-tabs-mode nil)
@@ -358,8 +370,13 @@ you should place your code here."
   ;; Enable projectile caching
   (setq projectile-enable-caching t)
 
-  ;; Deft Notes Configurations
-  (setq deft-directory "~/Dropbox/notes"
+  ;; make shell as a login shell
+  (setq multi-term-program-switches "--login")
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Deft Notes Configurations;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (setq deft-directory "~/Documents/notes"
         deft-recursive t)
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -372,7 +389,6 @@ you should place your code here."
   (add-hook 'org-mode-hook '(lambda ()
             (toggle-word-wrap)
             (turn-on-auto-fill)
-            (refill-mode)
             (org-indent-mode)))
 
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -382,12 +398,18 @@ you should place your code here."
   ;; Function that would append all folders with org notes
   ;; Add your directories here
   (defun org-directory-files ()
-    (append (directory-files-recursively "~/Documents/project-notes" "\\.org$")
-            (directory-files-recursively "~/Dropbox/notes" "\\.org$")))
+    (append (directory-files-recursively "~/Documents/notes" "\\.org$")
+            ))
 
   ;; Call the combined list of org files and set it as the org agenda file
   (with-eval-after-load 'org (setq org-agenda-files (org-directory-files)))
+  (setq org-src-fontify-natively t)
 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Org Journal Configurations ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  (setq org-journal-dir "~/Dropbox/Developer Journal/")
+  (setq org-journal-file-format "%Y%m%d.org")
 )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -403,7 +425,7 @@ you should place your code here."
  '(org-agenda-files nil)
  '(package-selected-packages
    (quote
-    (deft org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download htmlize gnuplot evil-rails yaml-mode web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode projectile-rails inflections livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc haml-mode flycheck-pos-tip pos-tip flycheck feature-mode enh-ruby-mode emmet-mode coffee-mode xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help git-gutter-fringe+ git-gutter+ git-commit git-gutter-fringe fringe-helper with-editor git-gutter diff-hl rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby all-the-icons memoize ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (org-journal fuzzy company-web web-completion-data company-tern dash-functional tern company-statistics company auto-yasnippet ac-ispell auto-complete zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme deft org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download htmlize gnuplot evil-rails yaml-mode web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode projectile-rails inflections livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor yasnippet multiple-cursors js2-mode js-doc haml-mode flycheck-pos-tip pos-tip flycheck feature-mode enh-ruby-mode emmet-mode coffee-mode xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help git-gutter-fringe+ git-gutter+ git-commit git-gutter-fringe fringe-helper with-editor git-gutter diff-hl rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby all-the-icons memoize ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

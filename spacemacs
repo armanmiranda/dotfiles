@@ -386,6 +386,8 @@ you should place your code here."
   ;; Org mode Configurations;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+  ;; Set org-agenda to fullscreen
+  (advice-add 'org-agenda :after 'delete-other-windows)
   ;; Automatically wrap when beyond 80 characters
   (setq-default fill-column 80)
   (setq org-startup-truncated nil)

@@ -4,7 +4,7 @@ export TERM="screen-256color"
 setopt no_hist_verify
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/arman.miranda/.oh-my-zsh
+export ZSH=/Users/$(whoami)/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -52,7 +52,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow brew npm pip python rails ruby rvm tmux yarn)
+plugins=(git git-flow brew npm pip python rails ruby rvm yarn)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -160,7 +160,34 @@ _print_warning() {
   return 0
 }
 
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+#export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+autoload -U add-zsh-hook
+
+load-nvmrc() {
+    local node_version="$(nvm version)"
+    local nvmrc_path="$(nvm_find_nvmrc)"
+
+    if [ -n "$nvmrc_path" ]; then
+        local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+        if [ "$nvmrc_node_version" = "N/A" ]; then
+            nvm install
+        elif [ "$nvmrc_node_version" != "$node_version" ]; then
+            nvm use
+        fi
+    elif [ "$node_version" != "$(nvm version default)" ]; then
+        echo "Reverting to nvm default version"
+        nvm use default
+    fi
+}
+
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc

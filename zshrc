@@ -1,10 +1,11 @@
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export TERM="screen-256color"
-setopt no_hist_verify
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/arman.miranda/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -52,7 +53,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow brew npm pip python rails ruby rvm tmux yarn)
+plugins=(git git-flow npm pip python rails ruby rvm yarn)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -92,6 +93,22 @@ source $ZSH/oh-my-zsh.sh
 # Personal Aliases
 alias rc="rails console"
 alias rcs="rails console --sandbox"
+
+docker_remove_dangling() {
+  _print_message echo "Removing dangling docker images..."
+  docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+}
+
+docker_rm_exited() {
+  _print_message echo "Removing exited docker containers..."
+  docker rm $(docker ps -a --filter "status=exited" -q)
+}
+
+docker_create_project_with() {
+  # Sample 
+  # docker_create_project_with ruby:2.7.3-alpine gem install bundler && rails new test_app -d=mysql --webpack=react --skip-coffee -T
+  docker run -v `pwd`:`pwd` -u 1000:1000 $1
+}
 
 rails_reset() {
   trap 'echo "Interrupted"; tput cnorm; return 1' INT
@@ -160,7 +177,13 @@ _print_warning() {
   return 0
 }
 
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/Documents/projects/android/android-studio/bin

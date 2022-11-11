@@ -78,5 +78,9 @@
 (evil-define-key 'evilified neotree-mode-map (kbd "i") 'neotree-enter-horizontal-split)
 (evil-define-key 'evilified neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
 
+;; Rebind buffer switch to gt
+(define-key evil-normal-state-map (kbd "gt") 'next-buffer)
+(define-key evil-normal-state-map (kbd "gT") 'previous-buffer)
+
 ;; Ledger Configuration
 (setq ledger-post-amount-alignment-column 80)

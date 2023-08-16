@@ -30,12 +30,24 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
+
+;; org-roam configuration
+(setq org-roam-directory (file-truename "Documents/personal/org-roam"))
+;; (org-roam-db-autosync-mode)
+
 ;; Set org-agenda to fullscreen
 (advice-add 'org-agenda :after 'delete-other-windows)
+(org-roam-db-autosync-mode)
+
 ;; Automatically wrap when beyond 80 characters
 (setq-default fill-column 80)
 (setq org-startup-truncated 'nil)
 (add-hook 'org-mode-hook '(lambda ()
+                            (toggle-word-wrap)
+                            (turn-on-auto-fill)
+                            (org-indent-mode)))
+
+(add-hook 'org-roam-mode-hook '(lambda ()
                             (toggle-word-wrap)
                             (turn-on-auto-fill)
                             (org-indent-mode)))
@@ -84,3 +96,7 @@
 
 ;; Ledger Configuration
 (setq ledger-post-amount-alignment-column 80)
+
+;; Magit gitflow configuration
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
+(evil-define-key '(normal visual) magit-mode-map (kbd "%") 'magit-gitflow-popup)

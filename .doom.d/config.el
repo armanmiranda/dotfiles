@@ -33,6 +33,7 @@
 
 ;; org-roam configuration
 (setq org-roam-directory (file-truename "Documents/personal/org-roam"))
+(setq org-attach-id-dir (file-truename "Documents/personal/org-roam/attachments"))
 ;; (org-roam-db-autosync-mode)
 
 ;; Set org-agenda to fullscreen

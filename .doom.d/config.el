@@ -43,15 +43,15 @@
 ;; Automatically wrap when beyond 80 characters
 (setq-default fill-column 80)
 (setq org-startup-truncated 'nil)
-(add-hook 'org-mode-hook '(lambda ()
-                            (toggle-word-wrap)
-                            (turn-on-auto-fill)
-                            (org-indent-mode)))
+(add-hook #'org-mode-hook #'(lambda ()
+                              (toggle-word-wrap)
+                              (turn-on-auto-fill)
+                              (org-indent-mode)))
 
-(add-hook 'org-roam-mode-hook '(lambda ()
-                            (toggle-word-wrap)
-                            (turn-on-auto-fill)
-                            (org-indent-mode)))
+(add-hook #'org-roam-mode-hook #'(lambda ()
+                                   (toggle-word-wrap)
+                                   (turn-on-auto-fill)
+                                   (org-indent-mode)))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

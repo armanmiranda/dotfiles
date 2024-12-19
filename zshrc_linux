@@ -4,6 +4,9 @@ export PATH="$PATH:$HOME/.rvm/bin"
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Add Emacs bin to PATH
+export PATH=$PATH:$HOME/.emacs.d/bin
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 # Set name of the theme to load. Optionally, if you set this to "random"

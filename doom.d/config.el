@@ -87,13 +87,16 @@
 (setq-default require-final-newline t mode-require-final-newline t)
 
 ;; Rebind neotree open, horizontal, and verical paths
-(evil-define-key 'evilified neotree-mode-map (kbd "o") 'neotree-enter)
-(evil-define-key 'evilified neotree-mode-map (kbd "i") 'neotree-enter-horizontal-split)
-(evil-define-key 'evilified neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
+(evil-define-key '(normal) neotree-mode-map (kbd "o") 'neotree-enter)
+(evil-define-key '(normal) neotree-mode-map (kbd "i") 'neotree-enter-horizontal-split)
+(evil-define-key '(normal) neotree-mode-map (kbd "s") 'neotree-enter-vertical-split)
 
 ;; Rebind buffer switch to gt
 (define-key evil-normal-state-map (kbd "gt") 'next-buffer)
 (define-key evil-normal-state-map (kbd "gT") 'previous-buffer)
+
+;; Rebind Typescript fold toggle
+(evil-define-key '(normal) typescript-tsx-mode-map (kbd "za") 'evil-toggle-fold)
 
 ;; Ledger Configuration
 (setq ledger-post-amount-alignment-column 80)
@@ -101,3 +104,23 @@
 ;; Magit gitflow configuration
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 (evil-define-key '(normal visual) magit-mode-map (kbd "%") 'magit-gitflow-popup)
+
+;; LSP Configuration
+(setq lsp-ui-sideline-diagnostic-max-lines 10000)
+
+;; Sonarlint Configuration
+(use-package! lsp-sonarlint
+  :custom
+  (lsp-sonarlint-auto-download t)
+  (lsp-sonarlint-enabled-analyzers '("text" "js"))
+  )
+
+;; Copilot Configuration
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ))
